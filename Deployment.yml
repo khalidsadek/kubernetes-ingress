@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: kubIng
+  ports:
+    - protocol: TCP
+      port: 8090
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-ingress
+  labels:
+    app: kubIng
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kubIng
+  template:
+    metadata:
+      labels:
+        app: kubIng
+    spec:
+      containers:
+      - name: nginx
+        image: yanivomc/spring-music:latest
+        ports:
+        - containerPort: 8080
